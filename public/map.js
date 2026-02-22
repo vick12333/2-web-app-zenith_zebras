@@ -45,7 +45,7 @@ addMarkers(studySpots);
 // TODO comment these when pushing and submitting
 function onMapClick(e) {
   const latlng = e.latlng;
-  console.log(`[${latlnglng.lat}, ${latlng.lng}]`);
+  console.log(`[${latlng.lat}, ${latlng.lng}]`);
 }
 
 map.on("click", onMapClick);
