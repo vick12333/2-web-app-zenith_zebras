@@ -23,6 +23,7 @@ users_collection = db.users
 
 app = Flask(__name__)
 
+<<<<<<< Homepage
 # This is temparary until we implement auth, so we can use url_for() in templates without crashing
 @app.get("/")
 def root():
@@ -92,6 +93,62 @@ def home():
 # Map Page
 # ---------------
 
+=======
+@app.route("/")
+def home():
+    return redirect(url_for("create_post"))
+
+@app.route("/posts/<post_id>")
+def view_post(post_id):
+    post = posts_collection.find_one({"_id": ObjectId(post_id)})
+    if not post:
+        return "Post not found", 404
+    return render_template("view_post.html", post=post)
+
+@app.route("/posts/create", methods=["GET", "POST"])
+def create_post():
+    if request.method == "POST":
+        post_data = {
+            "netid": request.form.get("netid"),
+            "location": request.form.get("location"),
+            "googlemaps": request.form.get("googlemaps"),
+            "noise_level": request.form.get("noise_level"),
+            "seating": request.form.get("seating"),
+            "wifi": request.form.get("wifi"),
+            "outlets": request.form.get("outlets"),
+            "reservable": request.form.get("reservable"),
+            "climate": request.form.get("climate"),
+            "hours": request.form.get("hours")
+        }
+        posts_collection.insert_one(post_data)
+        return render_template("create_post.html", message="Post created successfully!")
+    return render_template("create_post.html")
+
+@app.route("/posts/<post_id>/edit", methods=["GET", "POST"])
+def edit_post(post_id):
+    post = posts_collection.find_one({"_id": ObjectId(post_id)})
+    if request.method == "POST":
+        updated_data = {
+            "netid": request.form.get("netid"),
+            "location": request.form.get("location"),
+            "googlemaps": request.form.get("googlemaps"),
+            "noise_level": request.form.get("noise_level"),
+            "seating": request.form.get("seating"),
+            "wifi": request.form.get("wifi"),
+            "outlets": request.form.get("outlets"),
+            "reservable": request.form.get("reservable"),
+            "climate": request.form.get("climate"),
+            "hours": request.form.get("hours")
+        }
+        posts_collection.update_one({"_id": ObjectId(post_id)}, {"$set": updated_data})
+        return render_template("edit_post.html", post=updated_data, message="Post updated successfully!")
+    return render_template("edit_post.html", post=post)
+
+@app.route("/posts/<post_id>/delete", methods=["POST"])
+def delete_post(post_id):
+    posts_collection.delete_one({"_id": ObjectId(post_id)})
+    return "Deleted successfully", 200
+>>>>>>> main
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
