@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name = "viewport" content = "width=device-width, initial-scale=1" />
+        <title>HomePage</title>
+    </head>
+    <body>
+        <h1>HomePage</h1>
+        <div class="top-buttons">
+            <a href="{{ url_for('create_post') }}">Create Post</a>
+            <a href="{{ url_for('map_page') }}">Map</a>
+            <a href="{{ url_for('logout') }}">Log Out</a>
+        </div>
+
+        <form method="GET" action="{{url_for('search') }}">
+            <input typ="text" name="q" placeholder = "Search By Name">
+            <button type ="submit">Search</button>
+        </form>
+
+        <div class="places">
+            {% for place in places %}
+                <div class="place-card">
+                    <a href="{{ url_for('place_detail', place_id=place.id)}}">
+                        <h3>{{ place.name }}</h3>
+                        <p>{{ place.location }}</p>
+                    </a>    
+                </div>
+            {% endfor %}
+        </div>
+    </body>
+</html>
