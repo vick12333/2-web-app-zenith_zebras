@@ -11,7 +11,7 @@
         <p style="color: green;">{{ message }}</p>
     {% endif %}
 
-    <form method="POST" action="/posts">
+    <form method="POST" action="{{ url_for('create_post') }}">
         <label for="netid">NetID:</label>
         <input type="text" name="netid" id="netid" required><br><br>
 
