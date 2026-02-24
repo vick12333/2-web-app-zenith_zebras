@@ -5,44 +5,72 @@
     <title>Create a Post</title>
 </head>
 <body>
-    <h1>Create a Study Spot Post</h1>
 
-    {% if message %}
-        <p style="color: green;">{{ message }}</p>
-    {% endif %}
+<h1>Create a Post</h1>
 
-    <form method="POST" action="{{ url_for('create_post') }}">
-        <label for="netid">NetID:</label>
-        <input type="text" name="netid" id="netid" required><br><br>
+{% if message %}
+    <p>{{ message }}</p>
+{% endif %}
 
-        <label for="location">Location:</label>
-        <input type="text" name="location" id="location" required><br><br>
+<form method="POST">
 
-        <label for="googlemaps">Google Maps URL:</label>
-        <input type="text" name="googlemaps" id="googlemaps" required><br><br>
+    <p>
+        <label>NetID:</label><br>
+        <input type="text" name="netid" required>
+    </p>
 
-        <label for="noise_level">Noise Level:</label>
-        <input type="text" name="noise_level" id="noise_level" required><br><br>
+    <p>
+        <label>Name of Place:</label><br>
+        <input type="text" name="location" required>
+    </p>
 
-        <label for="seating">Seating:</label>
-        <input type="text" name="seating" id="seating" required><br><br>
+    <p>
+        <label>Google Maps URL:</label><br>
+        <input type="text" name="googlemaps" required>
+    </p>
 
-        <label for="wifi">WiFi:</label>
-        <input type="text" name="wifi" id="wifi" required><br><br>
+    <p>
+        <label>Noise Level:</label><br>
+        <input type="radio" name="noise_level" value="Silent Study" required> Silent Study<br>
+        <input type="radio" name="noise_level" value="Quiet Pair"> Quiet Pair<br>
+        <input type="radio" name="noise_level" value="Fit for Group"> Fit for Group
+    </p>
 
-        <label for="outlets">Outlets:</label>
-        <input type="text" name="outlets" id="outlets" required><br><br>
+    <p>
+        <label>WiFi:</label><br>
+        <input type="radio" name="wifi" value="Yes" required> Yes<br>
+        <input type="radio" name="wifi" value="No"> No
+    </p>
 
-        <label for="reservable">Reservable:</label>
-        <input type="text" name="reservable" id="reservable" required><br><br>
+    <p>
+        <label>Outlets:</label><br>
+        <input type="radio" name="outlets" value="Yes" required> Yes<br>
+        <input type="radio" name="outlets" value="No"> No
+    </p>
 
-        <label for="climate">Climate:</label>
-        <input type="text" name="climate" id="climate" required><br><br>
+    <p>
+        <label>Reservable:</label><br>
+        <input type="radio" name="reservable" value="Yes" required> Yes<br>
+        <input type="radio" name="reservable" value="No"> No
+    </p>
 
-        <label for="hours">Hours:</label>
-        <input type="text" name="hours" id="hours" required><br><br>
+    <p>
+        <label>Climate:</label><br>
+        <input type="text" name="climate" required>
+    </p>
 
-        <button type="submit">Create Post</button>
-    </form>
+    <p>
+        <label>Hours:</label><br>
+        <input type="text" name="hours" required>
+    </p>
+
+    <button type="submit">Create Post</button>
+
+</form>
+
+<br>
+
+<button tye = "submit"><a href="{{ url_for('home') }}" style="color:black;text-decoration: none;">Back to Home</a></button>
+
 </body>
 </html>

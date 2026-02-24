@@ -164,8 +164,7 @@ def home():
 
     query = {}
     if q:
-        # I have no idea what the database schema so adjust field name as needed
-        query = {"place_name": {"$regex": q, "$options": "i"}}
+        query = {"location": {"$regex": q, "$options": "i"}}
 
     #show newest first
     posts = list(posts_collection.find(query).sort("created_at", -1).limit(50))
@@ -199,11 +198,26 @@ def create_post():
             "outlets": request.form.get("outlets"),
             "reservable": request.form.get("reservable"),
             "climate": request.form.get("climate"),
-            "hours": request.form.get("hours")
+            "hours": request.form.get("hours"),
+            "created_at": datetime.datetime.utcnow()
         }
-        posts_collection.insert_one(post_data)
-        return render_template("create_post.html", message="Post created successfully!")
-    return render_template("create_post.html")
+
+        result = posts_collection.insert_one(post_data)
+        return redirect(url_for("view_post", post_id=result.inserted_id))
+    empty_post = {
+        "netid": "",
+        "location": "",
+        "googlemaps": "",
+        "noise_level": "",
+        "seating": "",
+        "wifi": "",
+        "outlets": "",
+        "reservable": "",
+        "climate": "",
+        "hours": ""
+    }
+
+    return render_template("create_post.html", post=empty_post)
 
 # ---------------
 # Edit Post
@@ -244,7 +258,7 @@ def map_page():
     posts = list(posts_collection.find({}, {"location": 1, "googlemaps": 1, "_id": 1}))
     print(posts)
     for p in posts:
-        p["_id"] = str(p["id"])
+        p["_id"] = str(p["_id"])
     print(posts)
     return render_template("map.html", posts=posts)
 
