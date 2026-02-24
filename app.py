@@ -45,9 +45,9 @@ def root():
 # -----------------------
 # Placeholder routes so url_for() won't crash
 # -----------------------
-@app.get("/map")
-def map_page():
-    return "<h1>Map Page (placeholder)</h1>"
+# @app.get("/map")
+# def map_page():
+#     return "<h1>Map Page (placeholder)</h1>"
 
 @app.get("/logout")
 def logout():
@@ -139,7 +139,14 @@ def delete_post(post_id):
 # ---------------
 # Map Page
 # ---------------
-
+@app.get("/map")
+def map_page():
+    posts = list(posts_collection.find({}, {"location": 1, "googlemaps": 1, "_id": 1}))
+    print(posts)
+    for p in posts:
+        p["_id"] = str(p["id"])
+    print(posts)
+    return render_template("map.html", posts=posts)
 
 
 
