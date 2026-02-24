@@ -4,6 +4,7 @@ from bson.objectid import ObjectId
 import datetime
 import os
 from dotenv import load_dotenv
+import re # for confirm email function
 
 load_dotenv()
 
@@ -41,6 +42,52 @@ def root():
 # ---------------
 # Login / Signup
 # ---------------
+# ---------------
+# Signup
+# ---------------
+# This function checks that all sign up info is correct and creates user in database
+def is_valid_nyu_email(email):
+    if not isinstance(email, str):
+        return False
+    
+    email = email.strip()
+    pattern = r'^[A-Za-z0-9._%+-]+@nyu\.edu$'
+    return re.fullmatch(pattern, email, re.IGNORECASE) is not None
+
+
+@app.route("/signup", methods=["GET", "POST"])
+def signup():
+    if request.method == "POST":
+        email = request.form.get("email")
+        password = request.form.get("password")
+        confirm_password = request.form.get("confirm_password")
+
+        # Validation
+        if not is_valid_nyu_email(email):
+            return render_template("signup.html", error="Must use valid NYU email.")
+
+        elif len(password) < 8:
+            return render_template("signup.html", error="Password must be at least 8 characters.")
+
+        elif password != confirm_password:
+            return render_template("signup.html", error="Passwords do not match.")
+
+        # Check duplicate
+        elif users_collection.find_one({"email": email}):
+            return render_template("signup.html", error="User already exists.")
+
+        user_name = email.split("@")[0]
+
+        users_collection.insert_one({
+            "netid": user_name,
+            "email": email,
+            "password": password,
+            "posts": []
+        })
+
+        return redirect(url_for("login"))
+
+    return render_template("signup.html")
 
 # -----------------------
 # Placeholder routes so url_for() won't crash
