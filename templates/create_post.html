@@ -3,46 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <title>Create a Post</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/create_post.css') }}">
 </head>
+
 <body>
-    <h1>Create a Study Spot Post</h1>
+    <main class="app">
+        <header class="header">
+            <h1 class="page-title">Create a Post</h1>
+        </header>
 
-    {% if message %}
-        <p style="color: green;">{{ message }}</p>
-    {% endif %}
+        <form class="form" method="POST" action="{{ url_for('create_post') }}">
+            <input class="input input-big" type="text" name="location" id="location" placeholder="Name of Place" required>
 
-    <form method="POST" action="{{ url_for('create_post') }}">
-        <label for="netid">NetID:</label>
-        <input type="text" name="netid" id="netid" required><br><br>
+            <input class="input input-big" type="text" name="googlemaps" id="googlemaps" placeholder="Link to google maps" required>
 
-        <label for="location">Location:</label>
-        <input type="text" name="location" id="location" required><br><br>
+            <div class="choice-row">
+                <input class="choice" type="radio" name="seating" id="seat_silent" value="Silent Study" required>
+                <label class="choice-box" for="seat_silent">Silent<br>Study</label>
 
-        <label for="googlemaps">Google Maps URL:</label>
-        <input type="text" name="googlemaps" id="googlemaps" required><br><br>
+                <input class="choice" type="radio" name="seating" id="seat_quiet" value="Quiet Pair" required>
+                <label class="choice-box" for="seat_quiet">Quiet<br>Pair</label>
 
-        <label for="noise_level">Noise Level:</label>
-        <input type="text" name="noise_level" id="noise_level" required><br><br>
+                <input class="choice" type="radio" name="seating" id="seat_group" value="Fit for Group" required>
+                <label class="choice-box" for="seat_group">Fit for<br>Group</label>
+            </div>
 
-        <label for="seating">Seating:</label>
-        <input type="text" name="seating" id="seating" required><br><br>
+            <!-- Yes/No rows-->
+             <div class="yn-grid">
+                <div class="yn-label">Wifi-</div>
+                <input class="choice" type="radio" name="wifi" id="wifi_yes" value="Yes" required>
+                <label class="choice-box" for="wifi_yes">Yes</label>
+                <input class="choice" type="radio" name="wifi" id="wifi_no" value="No">
+                <label class="choice-box" for="wifi_no">No</label>
 
-        <label for="wifi">WiFi:</label>
-        <input type="text" name="wifi" id="wifi" required><br><br>
+                <div class="yn-label">Outlets-</div>
+                <input class="choice" type="radio" name="outlets" id="outlets_yes" value="Yes" required>
+                <label class="choice-box" for="outlets_yes">Yes</label>
+                <input class="choice" type="radio" name="outlets" id="outlets_no" value="No">
+                <label class="choice-box" for="outlets_no">No</label>
 
-        <label for="outlets">Outlets:</label>
-        <input type="text" name="outlets" id="outlets" required><br><br>
+                <div class="yn-label">Reservable-</div>
+                <input class="choice" type="radio" name="reservable" id="reservable_yes" value="Yes" required>
+                <label class="choice-box" for="reservable_yes">Yes</label>
+                <input class="choice" type="radio" name="reservable" id="reservable_no" value="No">
+                <label class="choice-box" for="reservable_no">No</label>
+            </div>
 
-        <label for="reservable">Reservable:</label>
-        <input type="text" name="reservable" id="reservable" required><br><br>
+            <!-- Hours row -->
+            <div class="hours-grid">
+                <div class="hours-label">Hours</div>
 
-        <label for="climate">Climate:</label>
-        <input type="text" name="climate" id="climate" required><br><br>
+                <input class="input hours-input" type="text" name="hours" placeholder="Open from-Open to" required>
+            </div>
 
-        <label for="hours">Hours:</label>
-        <input type="text" name="hours" id="hours" required><br><br>
+            <button class="finish" type="submit">Create Post</button>
 
-        <button type="submit">Create Post</button>
-    </form>
+        </form>
+    </main>
 </body>
 </html>

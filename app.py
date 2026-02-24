@@ -98,7 +98,6 @@ def create_post():
             "wifi": request.form.get("wifi"),
             "outlets": request.form.get("outlets"),
             "reservable": request.form.get("reservable"),
-            "climate": request.form.get("climate"),
             "hours": request.form.get("hours")
         }
         posts_collection.insert_one(post_data)
