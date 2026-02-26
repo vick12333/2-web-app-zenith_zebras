@@ -142,12 +142,6 @@ def signup():
 
     return render_template("signup.html")
 
-# -----------------------
-# Placeholder routes so url_for() won't crash
-# -----------------------
-# @app.get("/map")
-# def map_page():
-#     return "<h1>Map Page (placeholder)</h1>"
 
 @app.get("/logout")
 def logout():
