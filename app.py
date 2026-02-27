@@ -62,7 +62,7 @@ def load_user(user_id):
 # This is temparary until we implement auth, so we can use url_for() in templates without crashing
 @app.get("/")
 def root():
-    return render_template("home.html")
+    return render_template("login.html")
 
 # ---------------
 # Auth guard
@@ -89,7 +89,8 @@ def login():
         if user_data and user_data["password"] == password:
             user = User(user_data)
             login_user(user)
-            return redirect(url_for("home"))
+            next_page = request.args.get("next")
+            return redirect(next_page or url_for("home"))
 
         return render_template("login.html", error="Invalid email or password.")
 
