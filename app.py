@@ -59,24 +59,14 @@ class User(UserMixin):
 
 @login_manager.user_loader
 def load_user(user_id):
-    try:
-        object_id = ObjectId(user_id)
-    except InvalidId:
-        return None
-    # Look up the logged-in user by ObjectId, if it exists
-    user_data = users_collection.find_one({"_id": object_id})
+    user_data = users_collection.find_one({"_id": ObjectId(user_id)})
     if user_data:
         return User(user_data)
     return None
 
-# This is temparary until we implement auth, so we can use url_for() in templates without crashing
-
-# the root page should redirect to home page
-# the authentification logic to check if the user is logged in or not
-# and furthur redirect to login / sign up page should be verified on the home page
 @app.get("/")
 def root():
-    return redirect(url_for("home"))
+    return render_template("home.html", posts=[], q="", noise_level="", wifi="", outlets="", reservable="", hours_start="", hours_end="", hours_options=HOUR_CHOICES)
 
 # ---------------
 # Auth guard
@@ -206,16 +196,13 @@ def signup():
 @app.get("/logout")
 def logout():
     logout_user()
-    return redirect(url_for("login"))
+    return redirect(url_for("root"))
 
 # ---------------
 # Home Page
 # ---------------
 
-# TODO when get request sent, should check if logged in, if not redirect to login / sign up
-
 @app.get("/home")
-@login_required
 def home():
     # Read all filter values from the query string
     q = request.args.get("q", "").strip()
