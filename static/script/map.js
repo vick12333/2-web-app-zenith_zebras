@@ -50,7 +50,7 @@ function addMarkers(spots) {
       // TODO
       // after implementing the page, add a link to the popup to redirect to the spot page for more info
       marker.bindPopup(
-        `<a href=${spot.googlemaps}><b>${spot.location}</b></a>`,
+        `<a href='/posts/${spot._id}'><b>${spot.location}</b></a>`,
       );
     }
   });
