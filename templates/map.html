@@ -33,6 +33,9 @@
             src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
             integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
             crossorigin></script>
+        <script>
+            const posts = {{ posts | tojson }} 
+        </script>
         <script
             src="../static/script/map.js"></script>
     </body>
