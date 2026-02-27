@@ -12,7 +12,7 @@ from bson.objectid import ObjectId
 import datetime
 import os
 from dotenv import load_dotenv
-import re # for confirm email function
+import re # for confirm email function, also for parsing google map link parsing
 
 load_dotenv()
 
@@ -142,12 +142,6 @@ def signup():
 
     return render_template("signup.html")
 
-# -----------------------
-# Placeholder routes so url_for() won't crash
-# -----------------------
-# @app.get("/map")
-# def map_page():
-#     return "<h1>Map Page (placeholder)</h1>"
 
 @app.get("/logout")
 def logout():
@@ -255,14 +249,22 @@ def delete_post(post_id):
 # ---------------
 @app.get("/map")
 def map_page():
-    posts = list(posts_collection.find({}, {"location": 1, "googlemaps": 1, "_id": 1}))
-    print(posts)
+    # retrieve posts from db
+    posts = list(posts_collection.find({}))
+
+    # for passing it to the html as json
     for p in posts:
         p["_id"] = str(p["_id"])
-    print(posts)
+
+    # parsing google map links to location
+    for p in posts:
+        link = str(p["googlemaps"])
+        parsed = re.search(r'@(-?\d+\.?\d*),(-?\d+\.?\d*)', link)
+        if parsed:
+            p["latlng"] = { "lat": float(parsed.group(1)), "lng": float(parsed.group(2)) }
+            # print(p["latlng"])
+
     return render_template("map.html", posts=posts)
-
-
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
