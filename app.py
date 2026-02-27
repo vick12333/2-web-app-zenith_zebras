@@ -66,7 +66,7 @@ def load_user(user_id):
 
 @app.get("/")
 def root():
-    return render_template("home.html", posts=[], q="", noise_level="", wifi="", outlets="", reservable="", hours_start="", hours_end="", hours_options=HOUR_CHOICES)
+    return redirect('/home')
 
 # ---------------
 # Auth guard
