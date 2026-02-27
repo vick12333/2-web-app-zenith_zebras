@@ -33,10 +33,13 @@ Our app helps students discover NYU study spaces through peer feedback, enabling
 ## Steps necessary to run the software
 
 ### 1. Copy environment file
+```bash
 cp .env.example .env
-
+```
 ### 2. Build and run containers
+```bash
 docker-compose up --build -d
+```
 
 ## Task boards
 
