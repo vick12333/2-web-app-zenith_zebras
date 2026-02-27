@@ -66,7 +66,11 @@ def load_user(user_id):
 # and furthur redirect to login / sign up page should be verified on the home page
 @app.get("/")
 def root():
+<<<<<<< HEAD
+    return render_template("login.html")
+=======
     return redirect('/home')
+>>>>>>> 113e9979451c02b6e88e4a1220a5db9ec1b0d082
 
 # ---------------
 # Auth guard
@@ -93,7 +97,8 @@ def login():
         if user_data and user_data["password"] == password:
             user = User(user_data)
             login_user(user)
-            return redirect(url_for("home"))
+            next_page = request.args.get("next")
+            return redirect(next_page or url_for("home"))
 
         return render_template("login.html", error="Invalid email or password.")
 
